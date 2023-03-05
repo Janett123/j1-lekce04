@@ -18,6 +18,7 @@ public class HlavniProgram {
     private Cat tom;
     private Mouse jerry;
 
+
     /**
      * Spouštěcí metoda celé aplikace.
      *
@@ -32,7 +33,7 @@ public class HlavniProgram {
      */
     public void run() {
         tom = vytvorKocku();
-        tom.setBrain(new KeyboardBrain(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D));
+        // tom.setBrain(new KeyboardBrain(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D));
 
         jerry = vytvorMys();
         jerry.setBrain(new KeyboardBrain());
@@ -43,7 +44,60 @@ public class HlavniProgram {
 
     public void chytMys() {
         // TODO: Sem vepište svůj program
+
+        while (jerry.isAlive()) {
+            jdiNaSouradnice(jerry.getX(), jerry.getY());
+        }
+
+
     }
+
+    public void jdiNaSouradnice(int x,int y) {
+        int xRozdil = tom.getX() - jerry.getX();
+        int yRozdil = tom.getY() - jerry.getY();
+
+        if (xRozdil < 0) {
+            otocSeDoprava();
+            tom.moveForward(Math.abs(xRozdil));
+        } else {
+            otocSeDoleva();
+            tom.moveForward(xRozdil);
+        }
+
+    }
+
+    public void otocSeDoprava() {
+        if(tom.getOrientation()==PlayerOrientation.UP) {
+        tom.turnRight();
+        } else if(tom.getOrientation()==PlayerOrientation.LEFT) {
+        tom.turnRight();
+        tom.turnRight();
+        } else if(tom.getOrientation()==PlayerOrientation.DOWN) {
+        tom.turnLeft();
+        }
+
+    }
+
+    public void otocSeDoleva() {
+        if (tom.getOrientation() == PlayerOrientation.LEFT) {
+            return;
+        }
+
+        if (tom.getOrientation() == PlayerOrientation.UP) {
+            tom.turnLeft();
+            return;
+        }
+
+        if (tom.getOrientation() == PlayerOrientation.DOWN) {
+            tom.turnRight();
+            return;
+        }
+
+        tom.turnLeft();
+        tom.turnLeft();
+    }
+
+
 
     public void vytvorVeci(int pocetStromu) {
         for (int i = 0; i < pocetStromu; i++) {
